@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CustomeButton from "../custom-button/custome-button.component";
 import FormInput from "../form-input-component/form-input.component";
-
+import singinwithGoogle from "../firebse-util/firebase.utils";
 import "./sin-ing.component.scss";
 
 class Singin extends Component {
@@ -44,6 +44,9 @@ class Singin extends Component {
           />
 
           <CustomeButton type="submit">SING IN</CustomeButton>
+          <CustomeButton onClick={singinwithGoogle}>
+            SING IN with google
+          </CustomeButton>
         </form>
       </div>
     );

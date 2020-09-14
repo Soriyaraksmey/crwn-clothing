@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "../menu-item/menu-item.component.scss";
 import { withRouter } from "react-router-dom";
 
