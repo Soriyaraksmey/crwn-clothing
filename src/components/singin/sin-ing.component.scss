@@ -1,9 +1,13 @@
 .sing-in {
-  width: 30vw;
+  width: 440px;
   display: flex;
   flex-direction: column;
 }
 .title {
   font-size: 20px;
   margin: 10px 0px;
+}
+.Button {
+  display: flex;
+  justify-content: space-between;
 }
