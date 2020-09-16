@@ -6,7 +6,10 @@ import Homepage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shoppage.component";
 import Header from "././components/menu-item/header/header.component";
 import SingInAndSingupPage from "./pages/sing-in-sing-up/sing-in-sing-up.componet";
-import { auth } from "./components/firebse-util/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+} from "./components/firebse-util/firebase.utils";
 
 class App extends React.Component {
   state = {
@@ -16,9 +19,24 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ curentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const userRef = await createUserProfileDocument(user);
+
+        userRef.onSnapshot((snapshot) => {
+          this.setState(
+            {
+              curentUser: {
+                id: snapshot.id,
+                ...snapshot.data(),
+              },
+            },
+            () => console.log(this.state)
+          );
+        });
+      } else {
+        this.setState({ curentUser: user });
+      }
     });
   }
   //"componentWillUnmount() is invoked immediately before a component is unmounted and destroyed. Perform any necessary cleanup in this method, such as invalidating timers, canceling network requests, or cleaning up any subscriptions that were created in componentDidMount()."

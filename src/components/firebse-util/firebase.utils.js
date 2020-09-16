@@ -18,6 +18,32 @@ firebase.initializeApp(config);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+export const createUserProfileDocument = async (authUser, adtionalData) => {
+  if (!authUser) return;
+
+  const userRef = firestore.doc(`users/${authUser.uid}`);
+
+  const snapsot = await userRef.get();
+
+  if (!snapsot.exists) {
+    // check if the user does not exists we will add to out DB
+    const { displayName, email } = authUser;
+    const createAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        createAt,
+        ...adtionalData,
+      });
+    } catch (error) {
+      console.log("User doesn't add to database", error);
+    }
+  }
+
+  return userRef;
+};
+
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 export const singinwithGoogle = () => auth.signInWithPopup(provider);
