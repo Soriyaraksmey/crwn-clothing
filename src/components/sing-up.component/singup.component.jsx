@@ -13,7 +13,7 @@ class Singup extends React.Component {
   constructor() {
     super();
     this.state = {
-      displayname: "",
+      displayName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -22,7 +22,7 @@ class Singup extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { displayname, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
 
     if (password !== confirmPassword) {
       alert("password dont match");
@@ -30,16 +30,19 @@ class Singup extends React.Component {
     }
 
     try {
-      const user = auth.createUserWithEmailAndPassword(email, password);
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
 
-      await createUserProfileDocument(user, { displayname });
+      await createUserProfileDocument(user, { displayName });
 
-      this.setState = {
-        displayname: "",
+      this.setState({
+        displayName: "",
         email: "",
         password: "",
         confirmPassword: "",
-      };
+      });
     } catch (error) {
       console.log(error);
     }
@@ -51,7 +54,7 @@ class Singup extends React.Component {
   };
 
   render() {
-    const { displayname, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword } = this.state;
     return (
       <div className="sing-up">
         <h2 className="title">I do have an account</h2>
@@ -59,8 +62,8 @@ class Singup extends React.Component {
         <form className="sing-up-form" onSubmit={this.handleSubmit}>
           <FormInput
             type="text"
-            name="displayname"
-            value={displayname}
+            name="displayName"
+            value={displayName}
             handelChange={this.handlechange}
             label="Display Name"
             required
