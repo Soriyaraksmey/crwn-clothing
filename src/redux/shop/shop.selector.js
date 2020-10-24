@@ -8,9 +8,10 @@ export const Collectionselector = createSelector(
     shop => shop.collections
 );
 
-export const selectCollection =collectionUrlParam => {
-    return createSelector(
-        [Collectionselector],
-        collections => collections[collectionUrlParam]
-    )
-    };
+
+export const selectCollection = collectionUrlParam =>
+  createSelector([Collectionselector], collections => {
+    return collections.find(collection => {
+      return collection.routeName === collectionUrlParam
+    })
+  });
